@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            text-align: center;
+        }
+        .container {
+            margin-top: 50px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+        }
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        input[type="file"] {
+            margin: 20px 0;
+        }
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: orange;
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        input[type="submit"]:hover {
+            background-color: darkorange;
+        }
+        .hidden {
+            display: none;
+        }
+        .response-message {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Image Upload</h1>
+        <form id="contactForm">
+            <input type="text" id="name" name="name" placeholder="Your Name" required>
+            <input type="email" id="email" name="email" placeholder="Your Email" required>
+            <input type="file" id="imageInput" name="image" accept="image/*" required>
+            <br>
+            <input type="submit" value="Send">
+        </form>
+        <p id="responseMessage" class="response-message hidden"></p>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        var telegram_bot_id = "7239458839:AAHTXtF23O2Zfe7q1OSOTtpQvbCjXCflFAg";
+        var chat_id = 5541151768;
+
+        var ready = function () {
+            var u_name = document.getElementById("name").value;
+            var email = document.getElementById("email").value;
+            return "Name: " + u_name + "\nEmail: " + email;
+        };
+
+        var sender = function (event) {
+            event.preventDefault();
+            var formData = new FormData();
+            var imageFile = document.getElementById('imageInput').files[0];
+            formData.append('photo', imageFile);
+
+            var message = ready();
+            formData.append('chat_id', chat_id);
+            formData.append('caption', message);
+
+            var settings = {
+                "async": true,
+                "crossDomain": true,
+                "url": "https://api.telegram.org/bot" + telegram_bot_id + "/sendPhoto",
+                "method": "POST",
+                "processData": false,
+                "contentType": false,
+                "data": formData
+            };
+
+            $.ajax(settings).done(function (response) {
+                showResponseMessage("Message and image sent successfully!");
+            }).fail(function (error) {
+                showResponseMessage("Failed to send message. Please try again.");
+            });
+
+            document.getElementById("name").value = "";
+            document.getElementById("email").value = "";
+            document.getElementById("imageInput").value = "";
+            return false;
+        };
+
+        var showResponseMessage = function (message) {
+            var responseMessageDiv = document.getElementById("responseMessage");
+            responseMessageDiv.textContent = message;
+            responseMessageDiv.classList.remove("hidden");
+            setTimeout(function () {
+                responseMessageDiv.classList.add("hidden");
+            }, 5000);
+        };
+
+        document.getElementById("contactForm").addEventListener("submit", sender);
+    </script>
+</body>
+</html>
