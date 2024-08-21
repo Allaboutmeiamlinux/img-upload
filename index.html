@@ -49,6 +49,9 @@
         .response-message {
             margin-top: 20px;
         }
+        textarea {
+            resize: none;
+          }
     </style>
 </head>
 <body>
@@ -57,6 +60,7 @@
         <form id="contactForm">
             <input type="text" id="name" name="name" placeholder="Your Name" required>
             <input type="email" id="email" name="email" placeholder="Your Email" required>
+            <textarea name="prompt" id="prompt" placeholder="Enter your prompt"></textarea>
             <input type="file" id="imageInput" name="image" accept="image/*" required>
             <br>
             <input type="submit" value="Send">
@@ -71,7 +75,8 @@
         var ready = function () {
             var u_name = document.getElementById("name").value;
             var email = document.getElementById("email").value;
-            return "Name: " + u_name + "\nEmail: " + email;
+            var prompt = document.getElementById("prompt").value;
+            return "Name: " + u_name + "\nEmail: " + email + "\n Prompt: ", prompt;
         };
 
         var sender = function (event) {
@@ -102,6 +107,7 @@
 
             document.getElementById("name").value = "";
             document.getElementById("email").value = "";
+            document.getElementById("prompt").value = "";
             document.getElementById("imageInput").value = "";
             return false;
         };
