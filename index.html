@@ -60,7 +60,7 @@
         <form id="contactForm">
             <input type="text" id="name" name="name" placeholder="Your Name" required>
             <input type="email" id="email" name="email" placeholder="Your Email" required>
-            <textarea name="prompt" id="prompt" placeholder="Enter your prompt"></textarea>
+            <textarea name="prompt" id="prompt" placeholder="Enter your prompt" required></textarea>
             <input type="file" id="imageInput" name="image" accept="image/*" required>
             <br>
             <input type="submit" value="Send">
@@ -76,7 +76,7 @@
             var u_name = document.getElementById("name").value;
             var email = document.getElementById("email").value;
             var prompt = document.getElementById("prompt").value;
-            return "Name: " + u_name + "\nEmail: " + email + "\n Prompt: ", prompt;
+            return "Name: " + u_name + "\nEmail: " + email + "\n Prompt: " + prompt;
         };
 
         var sender = function (event) {
